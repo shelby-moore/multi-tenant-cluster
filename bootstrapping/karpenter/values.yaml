@@ -1,0 +1,56 @@
+karpenter:
+  podDisruptionBudget:
+  name: karpenter
+  maxUnavailable: 1
+
+  podSecurityContext:
+    fsGroup: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    runAsUser: 1000
+
+  nodeSelector:
+    kubernetes.io/os: linux
+
+  # It is recommended that Karpenter is not scheduled on a node that it manages.
+  # So, we leave it on a multi-AZ EKS managed node group with a desired capacity of two on demand nodes.
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: karpenter.sh/provisioner-name
+                operator: DoesNotExist
+          - matchExpressions:
+              - key: eks.amazonaws.com/capacityType
+                operator: In
+                values:
+                  - ON_DEMAND
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - topologyKey: "kubernetes.io/hostname"
+
+  controller:
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+
+    outputPaths:
+      - stdout
+    errorOutputPaths:
+      - stderr
+  webhook:
+    logLevel: error
+    port: 8443
+
+logLevel: debug
+logEncoding: json
+
+settings:
+  aws:
+    nodeNameConvention: "ip-name"
+    tags:
+      Name: "eks-blueprint-karpenter-node"

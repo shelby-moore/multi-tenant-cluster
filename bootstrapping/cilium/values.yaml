@@ -1,0 +1,12 @@
+cni:
+  chainingMode: aws-cni
+enableIPv4Masquerade: false
+tunnel: disabled
+endpointRoutes:
+  enabled: true
+
+# the l7proxy can't be used with encryption enabled
+l7Proxy: false
+encryption:
+  enabled: true
+  type: wireguard
