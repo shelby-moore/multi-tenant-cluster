@@ -17,6 +17,9 @@ spec:
     spec:
       project: default
       source:
+        helm:
+          values: |
+            tenantName: '{{tenantName}}'
         repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
         targetRevision: main
         path: helm-charts/tenant
