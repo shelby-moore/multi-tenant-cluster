@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: default
+  namespace: {{ .Values.tenantName }}
+spec:
+  hard:
+    requests.cpu: 10000m
+    requests.memory: 41943040Ki

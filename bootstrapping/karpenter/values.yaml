@@ -56,27 +56,35 @@ karpenter:
       tags:
         Name: "eks-blueprint-karpenter-node"
 
-  # -- Array of extra K8s manifests to deploy
-  extraObjects: []
-  #- apiVersion: karpenter.k8s.aws/v1alpha1
-  #  kind: AWSNodeTemplate
-  #  metadata:
-  #    name: default
-  #    annotations:
-  #      "helm.sh/hook": "post-install,post-upgrade"
-  #      "helm.sh/hook-delete-policy": before-hook-creation
-  #  spec:
-  #    subnetSelector:
-  #      karpenter.sh/discovery: {CLUSTER_NAME}
-  #    securityGroupSelector:
-  #      karpenter.sh/discovery: {CLUSTER_NAME}
-  #- apiVersion: karpenter.sh/v1alpha5
-  #  kind: Provisioner
-  #  metadata:
-  #    name: default
-  #    annotations:
-  #      "helm.sh/hook": "post-install,post-upgrade"
-  #      "helm.sh/hook-delete-policy": before-hook-creation
-  #  spec:
-  #    providerRef:
-  #      name: default
+  extraObjects: [
+    - apiVersion: karpenter.sh/v1alpha5
+      kind: Provisioner
+      metadata:
+        name: default
+      spec:
+        startupTaints:
+          - key: node.cilium.io/agent-not-ready
+            value: "true"
+            effect: NoExecute
+        requirements:
+          - key: karpenter.sh/capacity-type
+            operator: In
+            values: ["on-demand"]
+        limits:
+          resources:
+            cpu: 1000
+        providerRef:
+          name: default
+        consolidation:
+          enabled: true
+    - apiVersion: karpenter.k8s.aws/v1alpha1
+      kind: AWSNodeTemplate
+      metadata:
+        name: default
+      spec:
+        amiFamily: Bottlerocket
+        subnetSelector:
+          karpenter.sh/discovery: "eks-blueprint"
+        securityGroupSelector:
+          karpenter.sh/discovery: "eks-blueprint"
+  ]
