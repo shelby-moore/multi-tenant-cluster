@@ -25,7 +25,7 @@ spec:
           values: |
             tenantName: '{{tenantName}}'
             nodeGroup:
-              enabled: {{nodeGroupEnabled}}
+              enabled: '{{nodeGroupEnabled}}'
               name: '{{nodeGroupName}}'
         repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
         targetRevision: main
