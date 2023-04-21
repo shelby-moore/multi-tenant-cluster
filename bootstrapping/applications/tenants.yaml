@@ -10,7 +10,10 @@ spec:
   - list:
       elements:
       - tenantName: tenant-one
+        nodeGroupEnabled: true
+        nodeGroupName: tenant-one
       - tenantName: tenant-two
+        nodeGroupEnabled: false
   template:
     metadata:
       name: '{{tenantName}}'
@@ -20,6 +23,9 @@ spec:
         helm:
           values: |
             tenantName: '{{tenantName}}'
+            nodeGroup:
+              enabled: {{nodeGroupEnabled}}
+              name: '{{nodeGroupName}}'
         repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
         targetRevision: main
         path: bootstrapping/charts/tenant
