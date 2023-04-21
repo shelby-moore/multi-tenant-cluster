@@ -1,31 +1,31 @@
 ---
-# apiVersion: cilium.io/v2
-# kind: CiliumNetworkPolicy
-# metadata:
-#   name: namespace-wide
-#   namespace: {{ .Values.name }}
-# spec:
-#   endpointSelector: {} # applies to any pod in this namespace
-#   ingress:
-#     # allow ingress from any pod in this namespace, deny all other ingress
-#     - fromEndpoints:
-#         - {}
-#   egress:
-#     # allow DNS lookups because DNS is life
-#     - toEndpoints:
-#         - matchLabels:
-#             io.kubernetes.pod.namespace: kube-system
-#             k8s-app: kube-dns
-#       toPorts:
-#         - ports:
-#             - port: "53"
-#               protocol: UDP
-#           rules: 
-#             dns: # careful with this, cilium will proxy all DNS requests if DNS metrics are enabled
-#               - matchPattern: "*"
-#     # allow egress to any pod in this namespace, all other namespaces are denied          
-#     - toEndpoints:
-#         - {}
-#     # allow egress to the internet    
-#     - toEntities:
-#         - world
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: namespace-wide
+  namespace: {{ .Values.name }}
+spec:
+  endpointSelector: {} # applies to any pod in this namespace
+  ingress:
+    # allow ingress from any pod in this namespace, deny all other ingress
+    - fromEndpoints:
+        - {}
+  egress:
+    # allow DNS lookups because DNS is life
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules: 
+            dns: # careful with this, cilium will proxy all DNS requests if DNS metrics are enabled
+              - matchPattern: "*"
+    # allow egress to any pod in this namespace, all other namespaces are denied          
+    - toEndpoints:
+        - {}
+    # allow egress to the internet    
+    - toEntities:
+        - world
