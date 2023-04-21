@@ -10,11 +10,7 @@ spec:
   - list:
       elements:
       - tenantName: tenant-one
-        nodeGroupEnabled: true
-        nodeGroupName: tenant-one
       - tenantName: tenant-two
-        nodeGroupEnabled: false
-        nodeGroupName: ''
   template:
     metadata:
       name: '{{tenantName}}'
@@ -22,14 +18,11 @@ spec:
       project: default
       source:
         helm:
-          values: |
-            tenantName: '{{tenantName}}'
-            nodeGroup:
-              enabled: '{{nodeGroupEnabled}}'
-              name: '{{nodeGroupName}}'
+          valueFiles:
+            - values.yaml
         repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
         targetRevision: main
-        path: bootstrapping/charts/tenant
+        path: bootstrapping/charts/{{tenantName}}
       destination:
         server: "https://kubernetes.default.svc"
         namespace: '{{tenantName}}'  

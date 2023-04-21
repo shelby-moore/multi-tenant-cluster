@@ -1,5 +1,4 @@
 {{- if kindIs "map" .Values.nodeGroup }}
-{{- if .Values.nodeGroup.enabled }}
 # TODO make the capacity type, instance type, etc configurable
 - apiVersion: karpenter.sh/v1alpha5
   kind: Provisioner
@@ -33,5 +32,4 @@
       karpenter.sh/discovery: "eks-blueprint"
     securityGroupSelector:
       karpenter.sh/discovery: "eks-blueprint"
-{{- end }}
 {{- end }}

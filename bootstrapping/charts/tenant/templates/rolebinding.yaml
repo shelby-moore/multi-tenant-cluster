@@ -2,13 +2,13 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Values.tenantName }}-developer-access
-  namespace: {{ .Values.tenantName }}
+  name: {{ .Values.name }}-developer-access
+  namespace: {{ .Values.name }}
 subjects:
   - kind: Group
-    name: eks-{{ .Values.tenantName }}-developers
+    name: eks-{{ .Values.name }}-developers
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
-  name: {{ .Values.tenantName }}-developer-access
+  name: {{ .Values.name }}-developer-access
   apiGroup: rbac.authorization.k8s.io

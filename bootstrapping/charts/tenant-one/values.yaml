@@ -1,0 +1,5 @@
+tenant:
+  name: "tenant-one"
+  nodeGroup:
+    enabled: true
+    name: "tenant-one"

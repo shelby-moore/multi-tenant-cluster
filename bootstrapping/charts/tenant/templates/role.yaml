@@ -2,8 +2,8 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ .Values.tenantName }}-developer-access
-  namespace: {{ .Values.tenantName }}
+  name: {{ .Values.name }}-developer-access
+  namespace: {{ .Values.name }}
 rules:
 - apiGroups:
   - traefik.containo.us

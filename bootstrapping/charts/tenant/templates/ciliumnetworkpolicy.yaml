@@ -3,7 +3,7 @@ apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: namespace-wide
-  namespace: {{ .Values.tenantName }}
+  namespace: {{ .Values.name }}
 spec:
   endpointSelector: {} # applies to any pod in this namespace
   ingress:
