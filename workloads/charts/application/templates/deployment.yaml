@@ -36,6 +36,20 @@ spec:
         image: curlimages/curl:8.00.1
         imagePullPolicy: IfNotPresent
         # command: {{ .Values.curlCommand }}
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
       - name: hello
         image: "us-docker.pkg.dev/google-samples/containers/gke/hello-app:2.0"
         imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
