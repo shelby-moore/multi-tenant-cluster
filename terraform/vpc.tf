@@ -12,9 +12,16 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = true
 
+  public_subnet_tags = {
+    # The AWS LB controller uses this to provision public LBs
+    "kubernetes.io/role/elb" = 1
+  }
+
   private_subnet_tags = {
     # Tags subnets for Karpenter auto-discovery
     "karpenter.sh/discovery" = local.name
+    # The AWS LB controller uses this to provision private LBs
+    "kubernetes.io/role/internal-elb" = 1
   }
 
   tags = local.tags
