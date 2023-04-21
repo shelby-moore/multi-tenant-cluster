@@ -20,9 +20,6 @@ spec:
         - ports:
             - port: "53"
               protocol: UDP
-          rules: 
-            dns: # careful with this, cilium will proxy all DNS requests if DNS metrics are enabled
-              - matchPattern: "*"
     # allow egress to any pod in this namespace, all other namespaces are denied          
     - toEndpoints:
         - {}
