@@ -1,0 +1,5 @@
+apiVersion: v2
+name: application
+description: The collection of Kubernetes resources to provision an application workload.
+type: application
+version: 1.0.0
