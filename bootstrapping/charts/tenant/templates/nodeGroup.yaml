@@ -1,5 +1,6 @@
 {{- if kindIs "map" .Values.nodeGroup }}
 # TODO make the capacity type, instance type, etc configurable
+---
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
@@ -22,6 +23,7 @@ spec:
     enabled: true
 
 # TODO make the subnet/security group configurable
+---
 apiVersion: karpenter.k8s.aws/v1alpha1
 kind: AWSNodeTemplate
 metadata:
