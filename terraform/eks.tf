@@ -19,9 +19,9 @@ module "eks" {
     bottlerocket = {
       node_group_name = "default"
       instance_types  = ["m5.large"]
-      min_size        = 2
-      desired_size    = 2
-      max_size        = 2
+      min_size        = 3
+      desired_size    = 3
+      max_size        = 3
       ami_type        = "BOTTLEROCKET_x86_64"
       subnet_ids      = module.vpc.private_subnets
       taints = {

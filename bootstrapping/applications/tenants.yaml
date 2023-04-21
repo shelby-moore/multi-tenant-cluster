@@ -14,6 +14,7 @@ spec:
         nodeGroupName: tenant-one
       - tenantName: tenant-two
         nodeGroupEnabled: false
+        nodeGroupName: ''
   template:
     metadata:
       name: '{{tenantName}}'
