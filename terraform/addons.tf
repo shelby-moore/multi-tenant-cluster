@@ -27,21 +27,27 @@ module "eks_addons" {
 
   argocd_applications = {
     addons = {
-      path = "bootstrapping/applications"
-      repo_url = "https://github.com/shelby-moore/multi-tenant-cluster.git"
-      type = "kustomize"
+      path               = "bootstrapping/applications"
+      repo_url           = "https://github.com/shelby-moore/multi-tenant-cluster.git"
+      type               = "kustomize"
       add_on_application = true
+    }
+    workloads = {
+      path               = "workloads/applications"
+      repo_url           = "https://github.com/shelby-moore/multi-tenant-cluster.git"
+      type               = "kustomize"
+      add_on_application = false
     }
   }
 
   // Because we're using argocd_manage_add_ons above, the booleans below
   // will only result in necessary AWS resources for the components being created.
   enable_aws_load_balancer_controller = true
-  enable_cilium = true
+  enable_cilium                       = true
   //enable_karpenter = true //We use the karpenter module instead. Enabling here is problematic, the AWS resources are created, but so is the service account, dispite gitops being enabled.
   enable_gatekeeper = true
   //enable_traefik = true //Enabling this would create the traefik ns only, which we're doing using gitops instead. No AWS resources involved.
-  
+
   tags = local.tags
 }
 
@@ -57,7 +63,7 @@ resource "bcrypt_hash" "argocd" {
 }
 
 resource "aws_secretsmanager_secret" "argocd" {
-  name                    = "argocd"
+  name = "argocd"
 }
 
 resource "aws_secretsmanager_secret_version" "argocd" {

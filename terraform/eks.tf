@@ -50,10 +50,10 @@ module "eks" {
   cluster_identity_providers = [
     {
       identity_provider_config_name = "Okta"
-      client_id = local.oidc_okta_client_id
-      issuer_url = local.oidc_okta_issuer_url
-      groups_claim = "groups"
-      username_claim = "email"
+      client_id                     = local.oidc_okta_client_id
+      issuer_url                    = local.oidc_okta_issuer_url
+      groups_claim                  = "groups"
+      username_claim                = "email"
     }
   ]
 
