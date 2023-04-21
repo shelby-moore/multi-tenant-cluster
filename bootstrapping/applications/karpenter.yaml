@@ -17,6 +17,11 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: karpenter
+  ignoreDifferences:
+  - group: ""
+    kind: ServiceAccount
+    jsonPointers:
+    - /metadata/annotations
   syncPolicy:
     automated:
       prune: true
