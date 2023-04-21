@@ -1,16 +1,17 @@
-providers:
-  kubernetesCRD:
-    ingressClass: traefik-public
+traefik:
+  providers:
+    kubernetesCRD:
+      ingressClass: traefik-public
 
-service:
-  enabled: true
-  type: NodePort
-  annotations:
-    # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/service/nlb/#configuration
-    # tldr, not a "public" LB, just tells k8s to change the controller reconciling this service
-    service.beta.kubernetes.io/aws-load-balancer-type: "external"
-    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
-    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
-    service.beta.kubernetes.io/aws-load-balancer-name: "eks-blueprint-public-ingress"
-    # TODO scope to public ingress node group
-    #service.beta.kubernetes.io/aws-load-balancer-target-node-labels: label1=value1, label2=value2
+  service:
+    enabled: true
+    type: NodePort
+    annotations:
+      # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/service/nlb/#configuration
+      # tldr, not a "public" LB, just tells k8s to change the controller reconciling this service
+      service.beta.kubernetes.io/aws-load-balancer-type: "external"
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+      service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+      service.beta.kubernetes.io/aws-load-balancer-name: "eks-blueprint-public-ingress"
+      # TODO scope to public ingress node group
+      #service.beta.kubernetes.io/aws-load-balancer-target-node-labels: label1=value1, label2=value2

@@ -11,7 +11,7 @@ spec:
     helm:
       valueFiles:
       - values.yaml
-    path: bootstrapping/charts/karpenter
+    path: bootstrapping/charts/gatekeeper
     repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
     targetRevision: main
   destination:
