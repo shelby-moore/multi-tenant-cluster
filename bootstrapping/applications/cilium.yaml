@@ -11,7 +11,7 @@ spec:
     helm:
       valueFiles:
       - values.yaml
-    path: bootstrapping/cilium
+    path: bootstrapping/charts/cilium
     repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
     targetRevision: main
   destination:

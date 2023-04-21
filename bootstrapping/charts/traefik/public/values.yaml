@@ -1,0 +1,9 @@
+providers:
+  kubernetesCRD:
+    ingressClass: traefik-public
+
+service:
+  enabled: true
+  type: NodePort
+  # Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
+  annotations: {}

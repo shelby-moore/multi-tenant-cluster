@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: aws-load-balancer-controller
+  name: gatekeeper
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -11,15 +11,17 @@ spec:
     helm:
       valueFiles:
       - values.yaml
-    path: bootstrapping/charts/aws-load-balancer-controller
+    path: bootstrapping/charts/karpenter
     repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
     targetRevision: main
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: kube-system
+    namespace: gatekeeper-system
   syncPolicy:
     automated:
       prune: true
+    syncOptions:
+      - CreateNamespace=true
     retry:
       limit: 1
       backoff:

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: aws-load-balancer-controller
+  name: traefik-private
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -10,16 +10,19 @@ spec:
   source:
     helm:
       valueFiles:
+      - ../common-values.yaml
       - values.yaml
-    path: bootstrapping/charts/aws-load-balancer-controller
+    path: bootstrapping/charts/traefik/private
     repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
     targetRevision: main
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: kube-system
+    namespace: traefik-private
   syncPolicy:
     automated:
       prune: true
+    syncOptions:
+      - CreateNamespace=true
     retry:
       limit: 1
       backoff:

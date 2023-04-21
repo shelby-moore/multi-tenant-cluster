@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    path: bootstrapping/cluster-admin-rbac
+    path: bootstrapping/charts/cluster-admin-rbac
     repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
     targetRevision: main
   destination:

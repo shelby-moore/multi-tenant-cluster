@@ -1,0 +1,9 @@
+# TODO disable the admin user and use OIDC for access to argocd
+# configs:
+#   cm:
+#     admin.enabled: false
+
+# TODO network policies may not be applied to argocd
+tolerations:
+  - key: "node.cilium.io/agent-not-ready"
+    value: "true"

@@ -22,7 +22,7 @@ spec:
             tenantName: '{{tenantName}}'
         repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
         targetRevision: main
-        path: helm-charts/tenant
+        path: bootstrapping/charts/tenant
       destination:
         server: "https://kubernetes.default.svc"
         namespace: '{{tenantName}}'  
