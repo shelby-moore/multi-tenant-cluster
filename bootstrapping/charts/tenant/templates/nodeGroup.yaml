@@ -11,7 +11,7 @@ spec:
       value: "true"
       effect: NoExecute
   taints:
-    - key: dedicated
+    - key: reserved
       value: {{ .Values.nodeGroup.name }}
       effect: NoExecute
   requirements:
