@@ -23,8 +23,9 @@ spec:
       source:
         helm:
           values: |
-            name: '{{application}}'
-            namespace: '{{namespace}}'
+            application:
+              name: '{{application}}'
+              namespace: '{{namespace}}'
           valueFiles:
             - values.yaml
         repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
