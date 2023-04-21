@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tenants
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  generators:
+  - list:
+      elements:
+      - application: tenant-one-application-one
+        namespace: tenant-one
+      - application: tenant-one-application-two
+        namespace: tenant-one
+      - application: tenant-two-application-three
+        namespace: tenant-two
+  template:
+    metadata:
+      name: '{{application}}'
+    spec:
+      project: default
+      source:
+        helm:
+          values: |
+            name: '{{application}}'
+            namespace: '{{namespace}}'
+          valueFiles:
+            - values.yaml
+        repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
+        targetRevision: main
+        path: application-workloads/charts/{{application}}
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: '{{namespace}}'  
+      syncPolicy:
+        automated:
+          prune: true
+        retry:
+          limit: 1
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 1m

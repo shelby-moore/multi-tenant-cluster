@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "25%"
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      {{- if kindIs "map" .Values.nodeGroup }}
+      nodeSelector:
+        {{ .Values.nodeGroup.name }}: true
+      tolerations:
+        - key: "reserved"
+          operator: "Equal"
+          value: {{ .Values.nodeGroup.name }}
+          effect: "NoSchedule"
+      {{- end }}
+      serviceAccountName: {{ .Values.name }}
+      containers:
+      - name: curl
+        image: curlimages/curl:8.00.1
+        imagePullPolicy: IfNotPresent
+        # command: {{ .Values.curlCommand }}
+      - name: hello
+        image: "us-docker.pkg.dev/google-samples/containers/gke/hello-app:2.0"
+        imagePullPolicy: IfNotPresent

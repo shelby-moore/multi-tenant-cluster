@@ -1,0 +1,4 @@
+application:
+  replicas: 1
+  nodeGroup:
+    name: "tenant-one"

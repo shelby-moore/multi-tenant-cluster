@@ -1,0 +1,39 @@
+{{if .Values.publicIngressEnabled }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Values.name }}-public
+  namespace: {{ .Values.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: traefik-public
+spec:
+  entrypoints: 
+  - web
+  routes:
+  - match: Host(`{{ .Values.name }}`)
+    kind: Rule
+    services:
+    - name: {{ .Values.name }}
+      port: 80
+{{ end }}
+
+{{if .Values.privateIngressEnabled }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Values.name }}-private
+  namespace: {{ .Values.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: traefik-private
+spec:
+  entrypoints: 
+  - web
+  routes:
+  - match: Host(`{{ .Values.name }}`)
+    kind: Rule
+    services:
+    - name: {{ .Values.name }}
+      port: 80
+{{ end }}

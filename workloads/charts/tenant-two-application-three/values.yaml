@@ -1,0 +1,2 @@
+application:
+  replicas: 1
