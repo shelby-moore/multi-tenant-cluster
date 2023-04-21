@@ -16,5 +16,5 @@ appVersion: '1.0'
 
 dependencies:
   - name: tenant
-    version: "0.0.1"
+    version: "1.0.0"
     repository: "file://../tenant"
