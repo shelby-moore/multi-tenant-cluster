@@ -23,7 +23,7 @@ spec:
     spec:
       {{- if kindIs "map" .Values.nodeGroup }}
       nodeSelector:
-        {{ .Values.nodeGroup.name }}: true
+        {{ .Values.nodeGroup.name }}: "true"
       tolerations:
         - key: "reserved"
           operator: "Equal"
