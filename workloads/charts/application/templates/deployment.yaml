@@ -8,18 +8,18 @@ metadata:
     app: {{ .Values.name }}
 spec:
   replicas: {{ .Values.replicas }}
-  strategy: 
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: "25%"
-      maxUnavailable: 0
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      name: {{ .Values.name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        name: {{ .Values.name }}
     spec:
       {{- if kindIs "map" .Values.nodeGroup }}
       nodeSelector:
@@ -32,20 +32,45 @@ spec:
       {{- end }}
       serviceAccountName: {{ .Values.name }}
       containers:
-      # - name: curl
-      #   image: nginx:stable
-      #   imagePullPolicy: IfNotPresent
-      #   # command: {{ .Values.curlCommand }}
-      #   resources:
-      #     requests:
-      #       cpu: 50m
-      #       memory: 50Mi
-      #     limits:
-      #       cpu: 100m
-      #       memory: 100Mi
-      - name: hello
-        image: "us-docker.pkg.dev/google-samples/containers/gke/hello-app:2.0"
+      - env:
+        - name: PORT
+          value: "8080"
+        image: quay.io/cilium/json-mock:v1.3.2@sha256:bc6c46c74efadb135bc996c2467cece6989302371ef4e3f068361460abaf39be
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - curl
+            - -sS
+            - --fail
+            - --connect-timeout
+            - "5"
+            - -o
+            - /dev/null
+            - localhost:8080
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 7
+        name: {{ .Values.name }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - curl
+            - -sS
+            - --fail
+            - --connect-timeout
+            - "5"
+            - -o
+            - /dev/null
+            - localhost:8080
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 7
         resources:
           requests:
             cpu: 50m
