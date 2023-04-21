@@ -57,7 +57,7 @@ karpenter:
     aws:
       clusterName: "eks-blueprint"
       nodeNameConvention: "ip-name"
-      defaultInstanceProfile: "Karpenter-eks-blueprintt"
+      defaultInstanceProfile: "Karpenter-eks-blueprint"
       tags:
         Name: "eks-blueprint-karpenter-node"
 
