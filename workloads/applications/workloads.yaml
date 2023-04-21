@@ -29,7 +29,7 @@ spec:
             - values.yaml
         repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
         targetRevision: main
-        path: application-workloads/charts/{{application}}
+        path: workloads/charts/{{application}}
       destination:
         server: "https://kubernetes.default.svc"
         namespace: '{{namespace}}'  
