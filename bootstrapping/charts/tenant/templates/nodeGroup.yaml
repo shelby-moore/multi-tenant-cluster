@@ -38,7 +38,7 @@ spec:
       operator: Exists
   limits:
     resources:
-      cpu: 1000
+      cpu: 1k
   providerRef:
     name: {{ .Values.nodeGroup.name }}
   consolidation:
