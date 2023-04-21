@@ -60,6 +60,7 @@ karpenter:
       defaultInstanceProfile: "Karpenter-eks-blueprint"
       tags:
         Name: "eks-blueprint-karpenter-node"
+        karpenter.sh/discovery": "eks-blueprint"
 
   extraObjects:
     - apiVersion: karpenter.sh/v1alpha5
