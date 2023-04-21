@@ -33,7 +33,7 @@ spec:
       serviceAccountName: {{ .Values.name }}
       containers:
       - name: curl
-        image: curlimages/curl:8.00.1
+        image: nginx:stable
         imagePullPolicy: IfNotPresent
         # command: {{ .Values.curlCommand }}
         resources:
