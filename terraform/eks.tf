@@ -69,9 +69,10 @@ module "karpenter" {
 
   enable_spot_termination = false
 
-  cluster_name           = module.eks.cluster_name
-  irsa_oidc_provider_arn = module.eks.oidc_provider_arn
-  irsa_use_name_prefix   = false
+  cluster_name             = module.eks.cluster_name
+  irsa_oidc_provider_arn   = module.eks.oidc_provider_arn
+  irsa_use_name_prefix     = false
+  iam_role_use_name_prefix = false
 
   policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"

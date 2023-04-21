@@ -5,7 +5,7 @@ traefik:
 
   service:
     enabled: true
-    type: NodePort
+    type: LoadBalancer
     annotations:
       # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/service/nlb/#configuration
       # tldr, not a "public" LB, just tells k8s to change the controller reconciling this service
