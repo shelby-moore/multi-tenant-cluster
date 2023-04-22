@@ -24,13 +24,14 @@ module "eks" {
       max_size        = 3
       ami_type        = "BOTTLEROCKET_x86_64"
       subnet_ids      = module.vpc.private_subnets
-      taints = {
-        cilium = {
-          key    = "node.cilium.io/agent-not-ready"
-          value  = "true"
-          effect = "NO_EXECUTE"
-        }
-      }
+      # TODO this prevents CoreDNS from starting on a fresh cluster. There is no way to set tolerations for the CoreDNS add-on.
+      # taints = {
+      #   cilium = {
+      #     key    = "node.cilium.io/agent-not-ready"
+      #     value  = "true"
+      #     effect = "NO_EXECUTE"
+      #   }
+      # }
     }
   }
 
