@@ -3,9 +3,11 @@ cilium:
     chainingMode: aws-cni
   enableIPv4Masquerade: false
   tunnel: disabled
-  # endpointRoutes:
-  #   enabled: true
+  upgradeCompatibility: "1.11"
+  endpointRoutes:
+    enabled: true
 
+  # encryption + kubeproxyreplacement disabled is broken on cilium 1.11
   # the l7proxy can't be used with encryption enabled
   # l7Proxy: false
   # encryption:
