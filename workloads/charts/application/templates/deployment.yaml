@@ -21,15 +21,15 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
-      # {{- if kindIs "map" .Values.nodeGroup }}
-      # nodeSelector:
-      #   {{ .Values.nodeGroup.name }}: "true"
-      # tolerations:
-      #   - key: "reserved"
-      #     operator: "Equal"
-      #     value: {{ .Values.nodeGroup.name }}
-      #     effect: "NoSchedule"
-      # {{- end }}
+      {{- if kindIs "map" .Values.nodeGroup }}
+      nodeSelector:
+        {{ .Values.nodeGroup.name }}: "true"
+      tolerations:
+        - key: "reserved"
+          operator: "Equal"
+          value: {{ .Values.nodeGroup.name }}
+          effect: "NoSchedule"
+      {{- end }}
       serviceAccountName: {{ .Values.name }}
       containers:
       - env:
