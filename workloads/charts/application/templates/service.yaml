@@ -11,5 +11,5 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    name: {{ .Values.name }}
+    app: {{ .Values.name }}
   type: ClusterIP
