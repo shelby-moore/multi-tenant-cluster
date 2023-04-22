@@ -5,6 +5,9 @@ apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
   name: {{ .Values.nodeGroup.name }}
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": before-hook-creation
 spec:
   startupTaints:
     - key: node.cilium.io/agent-not-ready
@@ -50,6 +53,9 @@ apiVersion: karpenter.k8s.aws/v1alpha1
 kind: AWSNodeTemplate
 metadata:
   name: {{ .Values.nodeGroup.name }}
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": before-hook-creation  
 spec:
   amiFamily: Bottlerocket
   subnetSelector:
