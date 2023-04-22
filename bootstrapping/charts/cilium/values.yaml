@@ -11,3 +11,9 @@ cilium:
   encryption:
     enabled: true
     type: wireguard
+
+  hubble:
+    relay:
+      enabled: true
+    ui:
+      enabled: true
