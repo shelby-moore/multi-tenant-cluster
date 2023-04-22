@@ -1,7 +1,9 @@
 karpenter:
   serviceAccount:
+    # ArgoCD is setup to ignore this annotation right now during diff/sync. If you're hosting this in a public GH repo, you probably
+    # don't want to commit your account ID =)
     annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::TBD:role/KarpenterIRSA-eks-blueprint
+      eks.amazonaws.com/role-arn: arn:aws:iam::TOBEDETERMINED:role/KarpenterIRSA-eks-blueprint
 
   podDisruptionBudget:
     name: karpenter

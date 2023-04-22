@@ -17,9 +17,16 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: kube-system
+  ignoreDifferences:
+  - group: ""
+    kind: ServiceAccount
+    jsonPointers:
+    - /metadata/annotations
   syncPolicy:
     automated:
       prune: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
     retry:
       limit: 1
       backoff:
