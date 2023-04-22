@@ -35,42 +35,12 @@ spec:
       - env:
         - name: PORT
           value: "8080"
-        image: quay.io/cilium/json-mock:v1.3.2@sha256:bc6c46c74efadb135bc996c2467cece6989302371ef4e3f068361460abaf39be
+        image: nginx:stable
         imagePullPolicy: IfNotPresent
-        livenessProbe:
-          exec:
-            command:
-            - curl
-            - -sS
-            - --fail
-            - --connect-timeout
-            - "5"
-            - -o
-            - /dev/null
-            - localhost:8080
-          failureThreshold: 3
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 7
         name: {{ .Values.name }}
         ports:
-        - containerPort: 8080
+        - containerPort: 80
           protocol: TCP
-        readinessProbe:
-          exec:
-            command:
-            - curl
-            - -sS
-            - --fail
-            - --connect-timeout
-            - "5"
-            - -o
-            - /dev/null
-            - localhost:8080
-          failureThreshold: 3
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 7
         resources:
           requests:
             cpu: 50m
