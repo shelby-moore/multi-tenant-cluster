@@ -58,6 +58,17 @@ module "eks" {
     }
   ]
 
+  node_security_group_additional_rules = {
+    ingress_self_all = {
+      description = "Node to node all ports/protocols"
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      type        = "ingress"
+      self        = true
+    }
+  }
+
   node_security_group_tags = {
     "karpenter.sh/discovery" = local.name
   }
