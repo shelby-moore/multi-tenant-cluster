@@ -4,4 +4,4 @@ aws-load-balancer-controller:
     # ArgoCD is setup to ignore this annotation right now during diff/sync. If you're hosting this in a public GH repo, you probably
     # don't want to commit your account ID =)
     annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::TOBEDETERMINED:role/eks-blueprint-aws-load-balancer-controller-sa-irsa
+      eks.amazonaws.com/role-arn: arn:aws:iam::TOBEDETERMINED:role/eks-blueprint-aws-load-balancer-controller-irsa
