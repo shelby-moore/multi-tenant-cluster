@@ -1,3 +1,5 @@
+# TODO setup external DNS to create records for ingress routes, then change the ingress routes below to use host matchers
+# rather than just path matchers.
 {{if .Values.publicIngressEnabled }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -31,9 +33,24 @@ spec:
   entryPoints: 
     - web
   routes:
-  - match: Host(`{{ .Values.name }}`)
+  - match: Path(`/{{ .Values.name }}`)
     kind: Rule
     services:
     - name: {{ .Values.name }}
       port: 8080
+    middlewares:
+      - name: {{ .Values.name }}
+{{ end }}
+
+{{if or .Values.publicIngressEnabled .Values.privateIngressEnabled }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  stripPrefix:
+    prefixes:
+      - /{{ .Values.name }}
 {{ end }}

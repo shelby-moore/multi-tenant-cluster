@@ -1,0 +1,24 @@
+{{if or .Values.publicIngressEnabled .Values.privateIngressEnabled }}
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  endpointSelector:
+    matchLabels:
+      app: {{ .Values.name }}
+  ingress:
+    - fromEndpoints:
+        {{- if .Values.privateIngressEnabled }}
+        - matchLabels:
+            "k8s:io.kubernetes.pod.namespace": traefik-private
+            "app.kubernetes.io/instance": traefik-private-traefik-private
+        {{- end }}
+        {{- if .Values.publicIngressEnabled }}
+        - matchLabels:
+            "k8s:io.kubernetes.pod.namespace": traefik-public
+            "app.kubernetes.io/instance": traefik-public-traefik-public
+        {{- end }}
+{{ end }}
