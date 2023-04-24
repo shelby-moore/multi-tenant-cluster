@@ -8,6 +8,17 @@ metadata:
     description: Check namespace-wide network restrictions are working.
 spec:
   schedule: "* * * * *"
+  template:
+    spec:
+      containers:
+        - name: netcheck
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
   rules:
     - name: external-dns-host-lookup-should-work
       type: dns
