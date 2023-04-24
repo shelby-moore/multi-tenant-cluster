@@ -21,4 +21,6 @@ spec:
             "k8s:io.kubernetes.pod.namespace": traefik-public
             "app.kubernetes.io/instance": traefik-public-traefik-public
         {{- end }}
+  egress:
+    - {}
 {{ end }}

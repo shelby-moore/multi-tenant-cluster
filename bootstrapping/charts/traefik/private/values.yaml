@@ -12,6 +12,9 @@ traefik:
       service.beta.kubernetes.io/aws-load-balancer-type: "external"
       service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
       service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+      # TODO update this range to not allow the kubernetes workers to use the internal ingress. Just left in
+      # for ease of testing, but obviously a bad practice if pods that can egress to the internet can circumvent
+      # network policy rules to call other pods in the cluster they shouldn't be to.
       service.beta.kubernetes.io/load-balancer-source-ranges: 10.0.0.0/16
       service.beta.kubernetes.io/aws-load-balancer-name: "eks-blueprint-private-ingress"
       # TODO scope to private ingress node group

@@ -1,0 +1,29 @@
+---
+apiVersion: netchecks.io/v1
+kind: NetworkAssertion
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.name }}
+  annotations:
+    description: Check namespace-wide network restrictions are working.
+spec:
+  schedule: "* * * * *"
+  rules:
+    - name: external-dns-host-lookup-should-work
+      type: dns
+      host: github.com
+      expected: pass
+      validate:
+        message: DNS requests to external host.
+    - name: k8s-svc-dns-lookup-should-work
+      type: dns
+      host: kubernetes.default
+      expected: pass
+      validate:
+        message: DNS lookup of the kubernetes service with namespace should work.
+    - name: request-to-another-namespace-should-not-work
+      type: http
+      url: http://argo-server.argocd
+      validate:
+        message: Http request to the Argo server should fail
+        pattern: "data['status-code'] in [200, 201]"
