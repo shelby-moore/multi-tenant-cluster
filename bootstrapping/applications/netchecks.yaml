@@ -8,9 +8,6 @@ metadata:
 spec:
   project: default
   source:
-    helm:
-      valueFiles:
-      - values.yaml
     path: bootstrapping/charts/netchecks
     repoURL: https://github.com/shelby-moore/multi-tenant-cluster.git
     targetRevision: main
