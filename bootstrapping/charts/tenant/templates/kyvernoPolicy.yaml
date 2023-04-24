@@ -1,0 +1,43 @@
+---
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: cannot-create-network-policy-outside-of-same-namespace
+  namespace: {{ .Values.name }}
+spec:
+  background: true
+  validationFailureAction: Enforce
+  rules:
+  - name: check-network-policies
+    match:
+      any:
+      - resources:
+          kinds:
+          - CiliumNetworkPolicy
+    validate:
+      message: >-
+        Egress in network policies is only allowed within the same namespace.             
+      anyPattern:
+      - spec:
+          egress: # deny all egress
+            - {}
+      - spec:
+          egress:      
+            - toEndpoints: # allow everything in this namespace
+              - {}
+      - spec:
+          egress:      
+            - toEndpoints: # allow to specific ports in this namespace
+              - toPorts: '*'
+      - spec:
+          egress:        
+            - toEndpoints: # allow in this namespace to specific pod
+              - matchLabels:
+                  =("k8s:io.kubernetes.pod.namespace"): "{{ .Values.name }}"
+                  =(k8s:io.kubernetes.pod.namespace): "{{ .Values.name }}"
+                =(toPorts): '*'
+      - spec:            
+            - toServices: # allow in this namespace to specific service
+              - k8sService:
+                  serviceName: '*'
+                =(toPorts): '*'
