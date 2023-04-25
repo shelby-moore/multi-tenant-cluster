@@ -1,0 +1,13 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: tenant-workload-egress-all-without-except-internal-cidr
+  namespace: tenant
+spec:
+  endpointSelector:
+    matchLabels:
+      app: "tenant-workload"
+  egress:
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0

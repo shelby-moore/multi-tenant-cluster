@@ -1,0 +1,13 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: tenant-workload-egress
+  namespace: tenant
+spec:
+  endpointSelector:
+    matchLabels:
+      app: "tenant-workload"
+  egress:
+    - toEndpoints:
+        - {}

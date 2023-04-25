@@ -1,0 +1,50 @@
+name: network-policy-tests
+policies:
+  - ./policies/allowedRules.yaml
+  - ./policies/cannotChangeDefaultPolicy.yaml
+resources:
+  - ./resources/tenant-namespace-wide.yaml
+  - ./resources/tenant-workload-egress.yaml
+  - ./resources/tenant-workload-egress-all-without-except-internal-cidr.yaml
+  - ./resources/tenant-workload-egress-to-internal-cidr.yaml
+  - ./resources/tenant-workload-no-traefik-ingress.yaml
+  - ./resources/tenant-workload-traefik-private-ingress.yaml
+  - ./resources/tenant-workload-traefik-private-and-public-ingress.yaml
+results:
+- policy: tenant-workload-network-policy
+  rule: check-network-policy-endpoint-selector
+  resources:
+    - namespace-wide
+    - tenant-workload-no-traefik-ingress
+  kind: CiliumNetworkPolicy
+  result: pass
+- policy: tenant-workload-network-policy
+  rule: check-network-policy-ingress
+  resources:
+    - namespace-wide
+    - tenant-workload-no-traefik-ingress
+    - tenant-workload-traefik-private-ingress
+    - tenant-workload-traefik-private-and-public-ingress
+  kind: CiliumNetworkPolicy
+  result: pass
+- policy: tenant-workload-network-policy
+  rule: check-network-policy-egress
+  resources:
+    - namespace-wide
+    - tenant-workload-no-traefik-ingress
+    - tenant-workload-egress
+  kind: CiliumNetworkPolicy
+  result: pass
+- policy: tenant-workload-network-policy
+  rule: check-network-policy-egress-to-cidr-set
+  resources:
+    - tenant-workload-egress-to-internal-cidr
+    - tenant-workload-egress-all-without-except-internal-cidr
+  kind: CiliumNetworkPolicy
+  result: fail
+- policy: tenant-namespace-wide-default-policy
+  rule: deny-default-tenant-ns-networkpolicy-changes
+  resources:
+    - namespace-wide
+  kind: CiliumNetworkPolicy
+  result: fail

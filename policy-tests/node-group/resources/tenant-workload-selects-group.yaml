@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tenant-workload-selects-group
+  namespace: tenant
+spec:
+  nodeSelector:
+    tenant: "true"
+  tolerations:
+    - key: "reserved"
+      operator: "Equal"
+      value: tenant
+      effect: "NoSchedule"
+  containers:
+    - image: nginx:stable
+      name: nginx
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      resources:
+        requests:
+          cpu: 50m
+          memory: 50Mi
+        limits:
+          cpu: 100m
+          memory: 100Mi

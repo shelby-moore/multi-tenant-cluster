@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: require-node-selection
+  namespace: tenant
+spec:
+  validationFailureAction: Enforce
+  rules:
+  - name: require-node-selection
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: If a tenant opts to have their own node group, all of their workloads must be scheduled on the node group.
+      pattern:
+        spec:
+          nodeSelector:
+            tenant: "true"
+          tolerations:
+            - key: "reserved"
+              operator: "Equal"
+              value: tenant
+              effect: "NoSchedule"

@@ -1,0 +1,143 @@
+# Alternatively, these could be made in to ClusterPolicies and applied to namespaces matching a certain name (https://kyverno.io/docs/writing-policies/match-exclude/#advanced-match-statement)
+---
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: namespace-wide-default-network-policy
+  namespace: {{ .Values.name }}
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+  - name: deny-default-networkpolicy-changes
+    match:
+      any:
+      - resources:
+          kinds:
+          - CiliumNetworkPolicy
+          names:
+          - "namespace-wide"
+    exclude:
+      any:
+      - clusterRoles:
+        - cluster-admin
+    validate:
+      message: "Changing the default namespace-wide network policy is not allowed."
+      deny: {}
+
+---
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: allowed-network-policy-rules
+  namespace: {{ .Values.name }}
+spec:
+  validationFailureAction: Enforce
+  rules:
+  - name: check-network-policy-endpoint-selector
+    match:
+      any:
+      - resources:
+          kinds:
+          - CiliumNetworkPolicy
+    validate:
+      message: Network policy endpoint selectors can select all pods in the namespace, or specific pods using the `app` label.            
+      anyPattern:
+        - spec:
+            endpointSelector: {}
+        - spec:
+            endpointSelector:
+              matchLabels:
+                app: '*'    
+  - name: check-network-policy-ingress
+    match:
+      any:
+      - resources:
+          kinds:
+          - CiliumNetworkPolicy
+    validate:
+      message: Ingress rules deny all by default. They can be configured to allow from all other pods in the namespace and from the traefik ingresses.
+      anyPattern:
+        - spec:
+            ingress: null
+        - spec:
+            ingress:
+              - {}
+        - spec:
+            ingress:
+              - fromEndpoints:
+                - {}
+        - spec:
+            ingress:
+              - fromEndpoints:
+                  - {}
+              - fromEndpoints:
+                  - matchLabels:
+                      "k8s:io.kubernetes.pod.namespace": traefik-private
+                      "app.kubernetes.io/instance": traefik-private-traefik-private
+        - spec:
+            ingress:
+              - fromEndpoints:
+                  - {}
+              - fromEndpoints:
+                  - matchLabels:
+                      "k8s:io.kubernetes.pod.namespace": traefik-public
+                      "app.kubernetes.io/instance": traefik-public-traefik-public
+        - spec:
+            ingress:
+              - fromEndpoints:
+                  - {}
+              - fromEndpoints:
+                  - matchLabels:
+                      "k8s:io.kubernetes.pod.namespace": traefik-private
+                      "app.kubernetes.io/instance": traefik-private-traefik-private
+                  - matchLabels:
+                      "k8s:io.kubernetes.pod.namespace": traefik-public
+                      "app.kubernetes.io/instance": traefik-public-traefik-public
+  - name: check-network-policy-egress
+    match:
+      any:
+      - resources:
+          kinds:
+          - CiliumNetworkPolicy
+    validate:
+      message: Egress rules only allow access to kubedns by default. They can be configured to allow egress to any other pods in the namespace and to the internet.             
+      anyPattern:
+      - spec:
+          egress: null
+      - spec:
+          egress:
+            - toEndpoints:
+              - matchLabels:
+                  io.kubernetes.pod.namespace: kube-system
+                  k8s-app: kube-dns
+              toPorts:
+                - ports:
+                  - port: "53"
+                    protocol: UDP
+      - spec:
+          egress:
+            - toEndpoints:
+              - {}
+  - name: check-network-policy-egress-to-cidr-set
+    match:
+      any:
+      - resources:
+          kinds:
+          - CiliumNetworkPolicy
+    preconditions:
+      any:
+        - key: "{{ request.object.spec.egress[].toCIDRSet[] | length(@) }}"
+          operator: GreaterThanOrEquals
+          value: 1
+    validate:
+      message: Egress rules only allow access to kubedns by default. They can be configured to allow egress to any other pods in the namespace and to the internet.             
+      deny:
+        conditions:
+          any:
+            - key: "{{ request.object.spec.egress[].toCIDRSet[].cidr }}"
+              operator: Equals
+              value: ["10.0.0.0/8"]
+            - key: "{{ request.object.spec.egress[].toCIDRSet[].except[] }}"
+              operator: AllIn
+              value: ["10.0.0.0/8"]

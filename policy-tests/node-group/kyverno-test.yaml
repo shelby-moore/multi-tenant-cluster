@@ -1,0 +1,23 @@
+name: node-group-tests
+policies:
+  - ./policies/mustUseGroup.yaml
+resources:
+  - ./resources/tenant-workload-missing-node-selector-toleration.yaml
+  - ./resources/tenant-workload-missing-node-selector.yaml
+  - ./resources/tenant-workload-missing-toleration.yaml
+  - ./resources/tenant-workload-selects-group.yaml
+results:
+- policy: require-node-selection
+  rule: require-node-selection
+  resources:
+    - tenant-workload-selects-group
+  kind: Pod
+  result: pass
+- policy: require-node-selection
+  rule: require-node-selection
+  resources:
+    - tenant-workload-missing-node-selector-toleration
+    - tenant-workload-missing-node-selector
+    - tenant-workload-missing-toleration
+  kind: Pod
+  result: fail

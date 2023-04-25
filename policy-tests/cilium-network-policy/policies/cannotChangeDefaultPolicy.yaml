@@ -1,0 +1,25 @@
+---
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: tenant-namespace-wide-default-policy
+  namespace: tenant
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+  - name: deny-default-tenant-ns-networkpolicy-changes
+    match:
+      any:
+      - resources:
+          kinds:
+          - CiliumNetworkPolicy
+          names:
+          - "namespace-wide"
+    exclude:
+      any:
+      - clusterRoles:
+        - cluster-admin
+    validate:
+      message: "Changing the default namespace-wide network policy is not allowed."
+      deny: {}

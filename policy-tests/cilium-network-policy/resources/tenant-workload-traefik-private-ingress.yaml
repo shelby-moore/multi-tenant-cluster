@@ -1,0 +1,17 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: tenant-workload-traefik-private-ingress
+  namespace: tenant
+spec:
+  endpointSelector:
+    matchLabels:
+      app: "tenant-workload"
+  ingress:
+    - fromEndpoints:
+        - {}
+    - fromEndpoints:
+        - matchLabels:
+            "k8s:io.kubernetes.pod.namespace": traefik-private
+            "app.kubernetes.io/instance": traefik-private-traefik-private
