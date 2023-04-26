@@ -60,16 +60,14 @@ spec:
       message: Ingress rules deny all by default. They can be configured to allow from all other pods in the namespace and from the traefik ingresses.
       anyPattern:
         - spec:
-            ingress: null
-        - spec:
-            ingress:
+            (ingress):
               - {}
         - spec:
-            ingress:
+            (ingress):
               - fromEndpoints:
                 - {}
         - spec:
-            ingress:
+            (ingress):
               - fromEndpoints:
                   - {}
               - fromEndpoints:
@@ -77,7 +75,7 @@ spec:
                       "k8s:io.kubernetes.pod.namespace": traefik-private
                       "app.kubernetes.io/instance": traefik-private-traefik-private
         - spec:
-            ingress:
+            (ingress):
               - fromEndpoints:
                   - {}
               - fromEndpoints:
@@ -85,7 +83,7 @@ spec:
                       "k8s:io.kubernetes.pod.namespace": traefik-public
                       "app.kubernetes.io/instance": traefik-public-traefik-public
         - spec:
-            ingress:
+            (ingress):
               - fromEndpoints:
                   - {}
               - fromEndpoints:
@@ -105,9 +103,7 @@ spec:
       message: Egress rules only allow access to kubedns by default. They can be configured to allow egress to any other pods in the namespace and to the internet.             
       anyPattern:
       - spec:
-          egress: null
-      - spec:
-          ^(egress):
+          (egress):
             - toEndpoints:
               - matchLabels:
                   io.kubernetes.pod.namespace: kube-system
@@ -116,8 +112,22 @@ spec:
                 - ports:
                   - port: "53"
                     protocol: UDP
+      - spec:
+          (egress):              
             - (toEndpoints):
               - {}
+      - spec:
+          (egress):
+            - toEndpoints:
+              - matchLabels:
+                  io.kubernetes.pod.namespace: kube-system
+                  k8s-app: kube-dns
+              toPorts:
+                - ports:
+                  - port: "53"
+                    protocol: UDP           
+            - toEndpoints:
+              - {}        
   - name: check-network-policy-egress-to-cidr-set
     match:
       any:
