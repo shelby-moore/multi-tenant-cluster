@@ -21,8 +21,9 @@ spec:
           nodeSelector:
             {{ .Values.name }}: "true"
           tolerations:
-            - key: "reserved"
-              operator: "Equal"
+            - effect: NoSchedule
+              key: reserved
+              operator: Equal
               value: {{ .Values.name }}
-              effect: "NoSchedule"
+              
 {{- end }}
