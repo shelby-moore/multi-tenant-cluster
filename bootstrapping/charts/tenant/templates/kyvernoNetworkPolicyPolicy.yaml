@@ -6,7 +6,7 @@ metadata:
   name: namespace-wide-default-network-policy
   namespace: {{ .Values.name }}
 spec:
-  validationFailureAction: Enforce
+  validationFailureAction: enforce
   background: false
   rules:
   - name: deny-default-networkpolicy-changes
@@ -32,7 +32,7 @@ metadata:
   name: allowed-network-policy-rules
   namespace: {{ .Values.name }}
 spec:
-  validationFailureAction: Enforce
+  validationFailureAction: enforce
   background: false
   rules:
   - name: check-network-policy-endpoint-selector

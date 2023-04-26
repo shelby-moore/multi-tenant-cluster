@@ -6,7 +6,7 @@ metadata:
   name: require-node-selection
   namespace: {{ .Values.name }}
 spec:
-  validationFailureAction: Enforce
+  validationFailureAction: enforce
   rules:
   - name: require-node-selection
     match:
