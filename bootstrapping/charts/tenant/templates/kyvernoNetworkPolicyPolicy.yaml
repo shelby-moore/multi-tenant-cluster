@@ -33,6 +33,7 @@ metadata:
   namespace: {{ .Values.name }}
 spec:
   validationFailureAction: Enforce
+  background: false
   rules:
   - name: check-network-policy-endpoint-selector
     match:
@@ -127,7 +128,7 @@ spec:
           - CiliumNetworkPolicy
     preconditions:
       any:
-        - key: "{{ request.object.spec.egress[].toCIDRSet[] | length(@) }}"
+        - key: '{{"{{"}} request.object.spec.egress[].toCIDRSet[] | length(@) {{"}}"}}'
           operator: GreaterThanOrEquals
           value: 1
     validate:
@@ -135,9 +136,9 @@ spec:
       deny:
         conditions:
           any:
-            - key: "{{ request.object.spec.egress[].toCIDRSet[].cidr }}"
+            - key: '{{"{{"}} request.object.spec.egress[].toCIDRSet[].cidr {{"}}"}}'
               operator: Equals
               value: ["10.0.0.0/8"]
-            - key: "{{ request.object.spec.egress[].toCIDRSet[].except[] }}"
+            - key: '{{"{{"}} request.object.spec.egress[].toCIDRSet[].except[] {{"}}"}}'
               operator: AllIn
               value: ["10.0.0.0/8"]
