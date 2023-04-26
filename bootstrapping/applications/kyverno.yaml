@@ -14,8 +14,7 @@ spec:
     targetRevision: 2.6.0
   ignoreDifferences:
     - kind: ClusterRole
-      managedFieldsManagers:
-        - clusterrole-aggregation-controller
+      name: kyverno
       jsonPointers:
       - /rules  
   syncPolicy:
@@ -25,3 +24,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
