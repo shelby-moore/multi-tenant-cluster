@@ -23,6 +23,6 @@ spec:
           tolerations:
             - key: "reserved"
               operator: "Equal"
-              value: tenant
+              value: {{ .Values.name }}
               effect: "NoSchedule"
 {{- end }}
