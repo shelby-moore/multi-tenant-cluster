@@ -116,8 +116,6 @@ spec:
                 - ports:
                   - port: "53"
                     protocol: UDP
-      - spec:
-          ^(egress):
             - (toEndpoints):
               - {}
   - name: check-network-policy-egress-to-cidr-set
