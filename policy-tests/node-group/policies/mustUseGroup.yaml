@@ -19,7 +19,7 @@ spec:
           nodeSelector:
             tenant: "true"
           tolerations:
-            - key: "reserved"
-              operator: "Equal"
-              value: tenant
-              effect: "NoSchedule"
+          - effect: NoSchedule
+            key: reserved
+            operator: Equal
+            value: tenant
