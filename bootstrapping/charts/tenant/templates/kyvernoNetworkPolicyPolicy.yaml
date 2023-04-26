@@ -107,7 +107,7 @@ spec:
       - spec:
           egress: null
       - spec:
-          egress:
+          ^(egress):
             - toEndpoints:
               - matchLabels:
                   io.kubernetes.pod.namespace: kube-system
@@ -117,7 +117,7 @@ spec:
                   - port: "53"
                     protocol: UDP
       - spec:
-          egress:
+          ^(egress):
             - toEndpoints:
               - {}
   - name: check-network-policy-egress-to-cidr-set
