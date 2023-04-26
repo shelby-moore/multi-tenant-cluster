@@ -118,7 +118,7 @@ spec:
                     protocol: UDP
       - spec:
           ^(egress):
-            - toEndpoints:
+            - (toEndpoints):
               - {}
   - name: check-network-policy-egress-to-cidr-set
     match:
