@@ -20,7 +20,7 @@ spec:
         spec:
           nodeSelector:
             {{ .Values.name }}: "true"
-          tolerations:
+          ^(tolerations):
           - effect: NoSchedule
             key: reserved
             operator: Equal
