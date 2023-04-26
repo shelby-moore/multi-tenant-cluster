@@ -27,7 +27,7 @@ spec:
       tolerations:
         - key: "reserved"
           operator: "Equal"
-          value: {{ .Values.nodeGroup.name }}
+          value: "{{ .Values.nodeGroup.name }}"
           effect: "NoSchedule"
       {{- end }}
       serviceAccountName: {{ .Values.name }}
