@@ -19,7 +19,7 @@ spec:
       pattern:
         spec:
           nodeSelector:
-            tenant: "true"
+            {{ .Values.name }}: "true"
           tolerations:
             - key: "reserved"
               operator: "Equal"
