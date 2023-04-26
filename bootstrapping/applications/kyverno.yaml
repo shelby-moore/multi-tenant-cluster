@@ -13,10 +13,11 @@ spec:
     repoURL: https://kyverno.github.io/kyverno
     targetRevision: 2.6.0
   ignoreDifferences:
-    - kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
       name: kyverno
-      jsonPointers:
-      - /rules
+      jqPathExpressions:
+      - .rules
   syncPolicy:
     automated:
       prune: true
