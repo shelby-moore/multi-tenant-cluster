@@ -22,6 +22,10 @@ spec:
     kind: ServiceAccount
     jsonPointers:
     - /metadata/annotations
+  - group: ""
+    kind: Secret
+    jsonPointers:
+    - /data
   syncPolicy:
     automated:
       prune: true
