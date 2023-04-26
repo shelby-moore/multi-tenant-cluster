@@ -13,11 +13,10 @@ spec:
     repoURL: https://kyverno.github.io/kyverno
     targetRevision: 2.6.0
   ignoreDifferences:
-    - group: ""
-      kind: ClusterRole
+    - kind: ClusterRole
       name: kyverno
       jsonPointers:
-      - /rules  
+      - /rules
   syncPolicy:
     automated:
       prune: true
