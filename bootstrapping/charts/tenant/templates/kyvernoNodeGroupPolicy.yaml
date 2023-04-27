@@ -19,7 +19,7 @@ spec:
       deny:
         conditions:
           any:
-            - key: '{{ request.object.spec.tolerations  || `[]` | length(@) }}'
+            - key: '{{"{{"}} request.object.spec.tolerations  || `[]` | length(@) {{"}}"}}'
               operator: LessThan
               value: 1  
   - name: require-node-selector
