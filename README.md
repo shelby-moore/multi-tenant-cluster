@@ -30,7 +30,7 @@ The bootstrapping Applications include:
 - AWS Load Balancer Controller - will create load balancers for the Traefik ingresses.
 - Cilium - installed in EKS CNI chaining mode, with wireguard encryption enabled. Used for network policy enforcement.
 - Cluster Admin RBAC - RBAC to provider cluster admin access to the cluster via Okta OIDC.
-- Gatekeeper - used to enforce OPA policies.
+- Kyverno - used to enforce policies for Kubernetes resources.
 - Karpenter - used to provision nodes.
 - Traefik - used to create a public and private ingress for the cluster.
 
