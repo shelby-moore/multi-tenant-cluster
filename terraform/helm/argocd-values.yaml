@@ -23,5 +23,9 @@ tolerations:
   - key: "node.cilium.io/agent-not-ready"
     value: "true"
 
-config:
-  cm: annotation+label
+configs:
+  cm:
+    # this needs to be overridden so as not to clash with kyverno (https://argo-cd.readthedocs.io/en/latest/user-guide/resource_tracking/#choosing-a-tracking-method)
+    application.resourceTrackingMethod: annotation+label
+    # disables status field diffing in specified resource types (https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/#ignoring-rbac-changes-made-by-aggregateroles)
+    resource.compareoptions.ignoreAggregatedRoles: true

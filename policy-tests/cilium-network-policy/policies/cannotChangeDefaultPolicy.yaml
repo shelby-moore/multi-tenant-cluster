@@ -5,7 +5,7 @@ metadata:
   name: tenant-namespace-wide-default-policy
   namespace: tenant
 spec:
-  validationFailureAction: Enforce
+  validationFailureAction: enforce
   background: false
   rules:
   - name: deny-default-tenant-ns-networkpolicy-changes

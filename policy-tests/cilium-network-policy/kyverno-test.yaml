@@ -3,13 +3,13 @@ policies:
   - ./policies/allowedRules.yaml
   - ./policies/cannotChangeDefaultPolicy.yaml
 resources:
-  - ./resources/tenant-namespace-wide.yaml
-  - ./resources/tenant-workload-egress.yaml
-  - ./resources/tenant-workload-egress-all-without-except-internal-cidr.yaml
-  - ./resources/tenant-workload-egress-to-internal-cidr.yaml
-  - ./resources/tenant-workload-no-traefik-ingress.yaml
-  - ./resources/tenant-workload-traefik-private-ingress.yaml
-  - ./resources/tenant-workload-traefik-private-and-public-ingress.yaml
+  - ./resources/tenantNamespaceWide.yaml
+  - ./resources/tenantWorkloadEgress.yaml
+  - ./resources/tenantWorkloadEgressAllWithoutExceptInternalCidr.yaml
+  - ./resources/tenantWorkloadEgressToInternalCidr.yaml
+  - ./resources/tenantWorkloadNoTraefikIngress.yaml
+  - ./resources/tenantWorkloadTraefikPrivateIngress.yaml
+  - ./resources/tenantWorkloadTraefikPrivateAndPublicIngress.yaml
 results:
 - policy: tenant-workload-network-policy
   rule: check-network-policy-endpoint-selector

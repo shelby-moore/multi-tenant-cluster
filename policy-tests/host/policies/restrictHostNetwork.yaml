@@ -1,0 +1,25 @@
+---
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: disallow-host-network
+  namespace: tenant
+  annotations:
+    policies.kyverno.io/description: >-
+      Attaching the hostNetwork allows a pod to use the node’s network, effectively giving the pod the same network access the node has.
+      This policy ensures hostNetwork is not used.      
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: host-network
+      match:
+        any:
+        - resources:
+            kinds:
+            - Pod
+      validate:
+        message: Using the hostNetwork is forbidden. The field spec.hostNetwork must be unset.
+        pattern:
+          spec:
+            X(hostNetwork): "null"

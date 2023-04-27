@@ -5,7 +5,7 @@ metadata:
   name: tenant-workload-network-policy
   namespace: tenant
 spec:
-  validationFailureAction: Enforce
+  validationFailureAction: enforce
   rules:
   - name: check-network-policy-endpoint-selector
     match:

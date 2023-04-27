@@ -1,0 +1,54 @@
+name: pod-host-usage-tests
+policies:
+  - ./policies/restrictHostNetwork.yaml
+  - ./policies/restrictHostPath.yaml
+  - ./policies/restrictHostPorts.yaml
+resources:
+  - ./resources/podNoHostNetwork.yaml
+  - ./resources/podUsesHostNetwork.yaml
+  - ./resources/podNoHostPath.yaml
+  - ./resources/podUsesHostPath.yaml
+  - ./resources/podNoHostPort.yaml
+  - ./resources/podUsesHostPort.yaml  
+results:
+- policy: disallow-host-network
+  rule: host-network
+  resources:
+    - tenant-workload-no-host-network
+  kind: Pod
+  result: pass
+
+- policy: disallow-host-network
+  rule: host-network
+  resources:
+    - tenant-workload-uses-host-network
+  kind: Pod
+  result: fail
+
+- policy: disallow-host-path
+  rule: host-path
+  resources:
+    - tenant-workload-no-host-path
+  kind: Pod
+  result: pass
+
+- policy: disallow-host-path
+  rule: host-path
+  resources:
+    - tenant-workload-uses-host-path
+  kind: Pod
+  result: fail
+
+- policy: disallow-host-ports
+  rule: host-ports-none
+  resources:
+    - tenant-workload-no-host-port
+  kind: Pod
+  result: pass
+
+- policy: disallow-host-ports
+  rule: host-ports-none
+  resources:
+    - tenant-workload-uses-host-port
+  kind: Pod
+  result: fail  

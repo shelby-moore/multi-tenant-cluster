@@ -46,7 +46,7 @@ When a developer with the above kubeconfig runs a kubectl command, the kubectl `
 
 A CiliumNetworkPolicy is applied to the entire tenant namespace that denies all ingress and egress by default, _except_ for egress to KubeDNS. A Kyverno policy is setup for the namespace the prevents this network policy from being modified, except for by cluster admins.
 
-All tenant workloads should create their own CiliumNetworkPolicy if additional ingress/egress rules are required. A Kyverno policy prevents workload policies from allowing ingress/egress to/from other namespaces.
+All tenant workloads should create their own CiliumNetworkPolicy if additional ingress/egress rules are required. A Kyverno policy prevents workload policies from allowing ingress/egress to/from other namespaces. Another Kyverno policy prevents tenant workloads from using `hostNetwork`, as the tenant namespace CiliumNetworkPolicy would not apply to these workloads.
 
 ## Resource Quota
 

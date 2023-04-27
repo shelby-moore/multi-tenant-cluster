@@ -2,11 +2,11 @@ name: node-group-tests
 policies:
   - ./policies/mustUseGroup.yaml
 resources:
-  - ./resources/tenant-workload-incorrect-toleration.yaml
-  - ./resources/tenant-workload-missing-node-selector-toleration.yaml
-  - ./resources/tenant-workload-missing-node-selector.yaml
-  - ./resources/tenant-workload-missing-toleration.yaml
-  - ./resources/tenant-workload-selects-group.yaml
+  - ./resources/tenantWorkloadIncorrectToleration.yaml
+  - ./resources/tenantWorkloadMissingNodeSelectorToleration.yaml
+  - ./resources/tenantWorkloadMissingNodeSelector.yaml
+  - ./resources/tenantWorkloadMissingToleration.yaml
+  - ./resources/tenantWorkloadSelectsGroup.yaml
 results:
 - policy: require-node-selection
   rule: require-node-selector

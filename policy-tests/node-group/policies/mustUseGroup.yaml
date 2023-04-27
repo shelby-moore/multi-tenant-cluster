@@ -4,7 +4,7 @@ metadata:
   name: require-node-selection
   namespace: tenant
 spec:
-  validationFailureAction: Enforce
+  validationFailureAction: enforce
   rules:
   - name: require-tolerations-be-set
     match:
