@@ -93,9 +93,13 @@ rm -rf ~/.kube/cache/oidc-login
 
 # TODO Production Readiness
 
+- Apply network policies to all non-tenant namespaces (kube-system, argocd, cilium-system, karpenter, traefik-private, traefik-public...)
+- The private load balancer created by the `traefik-private` installation has an allowlist for the EKS VPC cidr range to the load balancer. This makes testing easy for now, 
+as we can call the ingress using a pod in the cluster. However, this should be removed, as it allows pods in the cluster to potentially cirumvent network policy by using the ingress to call other pods in the cluster that would be blocked using in cluster routing.
+- Consider pod priority - are any tenants more important than the others?
 - Any workloads scheduled before Cilium will not have network policy enforcement applied, as the agent needs to be running when the workload is scheduled to setup a cilium endpoint. This is typically handled by the cilium start up taint on nodes. Bit of a chicken/egg problem if we're applying Cilium with ArgoCD. Maybe use a post sync hook to delete all pods except Cilium on the cluster?
 - ArgoCD admin user secret is in the statefile. Setup OIDC access to ArgoCD and disable the admin user.
-- Separate Argo Projects, one for bootstrapping, one per tenant.
+- Separate Argo Projects, one for bootstrapping, one per tenant (?).
 - Pull through cache third-party images.
 - Cilium w/ wireguard - it’s important to note that traffic between Pods on the same host are not encrypted. The Cilium team made this decision intentionally because if privilege exists to view traffic on the node, it is possible to view the raw, unencrypted traffic anyway. This is because encryption is done as traffic is leaving the node
 through a tunnel device. If this is not acceptable from a security perspective, mutual TLS may be a better option.
