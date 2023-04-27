@@ -8,18 +8,42 @@ metadata:
 spec:
   validationFailureAction: enforce
   rules:
-  - name: require-node-selection
+  - name: require-tolerations-be-set
     match:
       any:
       - resources:
           kinds:
           - Pod
     validate:
-      message: If a tenant opts to have their own node group, all workloads must be scheduled on the node group.
+      message: If a tenant opts to have their own node group, a toleration must be set for the node group taint.
+      deny:
+        conditions:
+          any:
+            - key: '{{ request.object.spec.tolerations  || `[]` | length(@) }}'
+              operator: LessThan
+              value: 1  
+  - name: require-node-selector
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: If a tenant opts to have their own node group, a node selector must be set for the node group
       pattern:
         spec:
           nodeSelector:
             {{ .Values.name }}: "true"
+  - name: require-correct-toleration-be-set
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: If a tenant opts to have their own node group, the correct toleration must be set for the node group taint.
+      pattern:
+        spec:
           ^(tolerations):
           - effect: NoSchedule
             key: reserved
