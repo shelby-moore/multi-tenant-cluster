@@ -48,6 +48,8 @@ A CiliumNetworkPolicy is applied to the entire tenant namespace that denies all 
 
 All tenant workloads should create their own CiliumNetworkPolicy if additional ingress/egress rules are required. A Kyverno policy prevents workload policies from allowing ingress/egress to/from other namespaces. Another Kyverno policy prevents tenant workloads from using `hostNetwork`, as the tenant namespace CiliumNetworkPolicy would not apply to these workloads.
 
+A valuable addition would be to setup continuous, automated testing to ensure the network policies applied to the cluster do not provide unintended access to or from tenant namespaces.
+
 ## Resource Quota
 
 A ResourceQuota is applied to the tenant namespace so that tenant workloads will not get unbounded access to the cluster. When a ResourceQuota is applied to a namespace, all pods created within that namespace *must* have resource requests and limits specified.
