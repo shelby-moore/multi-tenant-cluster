@@ -54,7 +54,9 @@ A valuable addition would be to setup continuous, automated testing to ensure th
 
 A ResourceQuota is applied to the tenant namespace so that tenant workloads will not get unbounded access to the cluster. When a ResourceQuota is applied to a namespace, all pods created within that namespace *must* have resource requests and limits specified.
 
-* Note - in addition to a ResourceQuota, it may be desireable to impose a LimitRange on the namespace as well. The settings for the LimitRange would depend on the instance types supported for the node group(s) tenant workloads may be scheduled on.
+* Note - in addition to a ResourceQuota, it may be desireable to impose a LimitRange on the namespace as well. The settings for the LimitRange would depend on the instance types supported for the node group(s) tenant workloads may be scheduled on. A Kyverno policy could be added to ensure the ResourceQuota/LimitRange are not modified or removed.
+
+* Note - employing QoS classes could be used to guard against workload eviction when a node is having resource contention issues. This is fairly implicit though, as it is set depending on how resource requests and limits are specificed for each workload. The implicit nature could be abstracted away behind Helm values for the tenant workloads. Building on QoS further, it is possible to configure the CPU and Memory Managers such that workloads with the `Guaranteed` QoS class are provided with stronger guarantees of requested CPU and memory.
 
 ## Node Group (Optional)
 
@@ -67,6 +69,8 @@ To further mitigate resource starvation type problems from other tenants, the He
 ### Pod Priority
 
 Depending on the tenants using the cluster, pod priority could be added so that tenant workloads that have less tolerance for downtime are prioritized over tenant workloads that have more tolerance. For example, one tenant may mostly run scheduled batch jobs for internal reporting purposes, while another tenant runs web applications accessed by end users. By applying a higher pod priority to the latter tenant, we could better support HA by evicting the former tenant's workloads when the cluster is under resource pressure. ResourceQuotas can be used to restrict which namespaces can use a priority class.
+
+* Note - it may be desireable to add a Kyverno policy to ensure only certain priority classes are used. For example, tenant workloads should likely not use the `system-cluster-critical` and `system-node-critical` priority classes.
 
 ### Ingress
 

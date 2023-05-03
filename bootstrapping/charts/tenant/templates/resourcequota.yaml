@@ -7,4 +7,6 @@ metadata:
 spec:
   hard:
     requests.cpu: 10000m
-    requests.memory: 41943040Ki
+    requests.memory: 40Gi
+    #requests.storage: 100Gi
+    #<storage-class-name>.storageclass.storage.k8s.io/requests.storage: 100Gi
