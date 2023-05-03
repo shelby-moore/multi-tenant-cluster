@@ -98,7 +98,6 @@ rules:
 - apiGroups:
   - apps
   resources:
-  - daemonsets
   - deployments
   - deployments/rollback
   - deployments/scale
@@ -227,6 +226,8 @@ rules:
   - apps
   resources:
   - controllerrevisions
+  - daemonsets
+  - daemonsets/status
   - deployments
   - deployments/scale
   - deployments/status
@@ -263,6 +264,8 @@ rules:
 - apiGroups:
   - extensions
   resources:
+  - daemonsets
+  - daemonsets/status
   - deployments
   - deployments/scale
   - deployments/status
