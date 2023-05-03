@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Values.name }}
 spec:
   hard:
-    requests.cpu: 10000m
-    requests.memory: 40Gi
+    requests.cpu: 1000m
+    requests.memory: 5Gi
     #requests.storage: 100Gi
     #<storage-class-name>.storageclass.storage.k8s.io/requests.storage: 100Gi
