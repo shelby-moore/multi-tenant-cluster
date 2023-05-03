@@ -91,6 +91,12 @@ To logout, clear the cache, which will trigger the auth flow again.
 rm -rf ~/.kube/cache/oidc-login
 ```
 
+# Bootstrapping
+
+ArgoCD will automatically bootstrap the clusters, but sync waves are missing, so the components don't come up in quite the right order yet.
+
+aws-load-balancer-controller and karpenter use IRSA, but the manifests don't include the correct ARN right now. The AWS Account ID needs to be added to them. ArgoCD is setup to ignore changes to the ServiceAccounts for these components so the correct ARN can be added manually.
+
 # TODO Production Readiness
 
 - Apply network policies to all non-tenant namespaces (kube-system, argocd, cilium-system, karpenter, traefik-private, traefik-public...)

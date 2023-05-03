@@ -31,7 +31,7 @@ rules:
   - update
   - patch
   - delete 
-# The rest of this is basically just the `edit` ClusterRole, with clusterwide resources and daemonsets removed.
+# The rest of this is basically just the `edit` ClusterRole, with clusterwide resources and manage for daemonsets removed.
 - apiGroups:
   - ""
   resources:

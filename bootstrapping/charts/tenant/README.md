@@ -4,7 +4,7 @@ This Helm chart is installed using an ArgoCD ApplicationSet, which is configured
 
 ## RBAC
 
-A Kubernetes Role is created with full edit access to the entire namespace, with the exception of Daemonsets. It may be preferable to adapt this role to optionally be created with readonly access in production environments, with edit access being reserved for non-production environments.
+A Kubernetes Role is created with full edit access to the entire namespace, with the exception of being able to create Daemonsets. It may be preferable to adapt this role to optionally be created with readonly access in production environments, with edit access being reserved for non-production environments.
 
 A Kubernetes RoleBinding is created that binds the above role to a Group named `eks-TENANTNAME-developers` (TENANTNAME is replaced with the name passed to the Helm chart). The assumption here is that a group with the same name is created in Okta, with the developers that should have access to the tenant namespace added to this group. The kubeconfig for developers should look similar to:
 
@@ -41,6 +41,8 @@ users:
 ```
 
 When a developer with the above kubeconfig runs a kubectl command, the kubectl `oidc-login` plugin will open the browser so that the developer can login to Okta. Okta will return a token to the plugin, which can then be used to access the Kubernetes API with kubectl (assuming the Kubernetes API has been configured to use the configured Okta application as an OIDC token issuer).
+
+* Note - if tenant workloads can be given Kubernetes API access, it may be desireable to restrict what access is given, and/or to restrict developer access to workload service account tokens. If developers have access to service account tokens with elevated Kubernetes API access, developers could use the tokens to elevate their own access to the Kubernetes API.
 
 ## Cilium Network Policy
 
